@@ -7,15 +7,11 @@ import {POST_ALL_CATEGORIES} from '../actions/action'
 // })
 // console.log(initialCategories)
 
-function category (state = {}, action) {
+function category (state = [], action) {
   switch (action.type) {
     case POST_ALL_CATEGORIES :
-      const { data } = action
-
-      return {
-        ...state,
-        categories: data,
-      }
+      const { categories } = action
+      return categories //an array
     default :
       return state
   }
