@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import {postAllCategories} from '../actions/action'
 import { Route, Link, BrowserRouter, Switch } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
+import PostList from './PostList'
+import Post from './Post'
 
 function mapStateToProps (state) {
   let {category} = state
@@ -18,7 +20,7 @@ function mapDispatchToProps (dispatch) {
 }
 
 class App extends Component {
-  componentDidMount(){
+  componentWillMount(){
     API.getAllCategories().then(value => {
       this.props.postAllCategories(value)//value is array of categories
     }).catch(error => console.log(error))
@@ -45,12 +47,15 @@ class App extends Component {
           </Menu>
           <Switch>
             <Route exact path='/' render={() => (
-              <div>HOME</div>
+              <PostList />
             )}/>
             {categories && categories.map(cate =>
             (<Route path={'/'+cate.path} key={cate.name} render={() => (
-              <div>{cate.name}</div>
+              <PostList category={cate.name} />
             )}/>))}
+            <Route path='/postdetail' render={() => (
+              <Post />
+            )} />
           </Switch>
         </div>
       </BrowserRouter>

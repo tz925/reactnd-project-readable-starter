@@ -15,3 +15,15 @@ export const getAllCategories = () => {
     .then(res => res.json())
     .then(data => data.categories)
 }
+
+export const getAllPosts = () => {
+  return fetch(`${url}/posts`, {
+    method: 'GET', headers })
+    .then(res => res.json())
+}
+
+export const getCategoryPosts = (category) => {
+  return fetch(`${url}/${category}/posts`, {
+    method: 'GET', headers })
+    .then(res => res.json())
+}
