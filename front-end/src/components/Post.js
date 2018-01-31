@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment,Header,Container,Icon,Comment,Form,Button,Grid } from 'semantic-ui-react'
+import { Segment,Header,Container,Icon,Comment,Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { postPostDetail,postComments } from '../actions/action'
 import * as API from '../utils/api'
@@ -11,7 +11,7 @@ function mapStateToProps (state) {
   let post = state.postDetail
   let comments = state.comments
   return {
-    post: post,//get posts from redux
+    post: post,//get postDetail from redux
     comments: Object.keys(comments).map(key => comments[key]),
   }
 }
@@ -64,7 +64,7 @@ class Post extends Component {
         <Comment.Group>
           <Header as='h3' dividing>Comments</Header>
           <SortByDropDown onSelect={sortByOnSelect} />
-          <CommentModal mode="create" />
+          <CommentModal mode="create" parentId={post.id}/>
           {comments && comments.map(comment => (
             <Comment key={comment.id}>
               <Grid  >
@@ -79,7 +79,7 @@ class Post extends Component {
                     </Comment.Content>
                   </Grid.Column>
                   <Grid.Column width={4}>
-                    <CommentModal />
+                    <CommentModal mode="edit" comment={comment} />
                   </Grid.Column>
                   <Grid.Column><span>Vote: {comment.voteScore}</span></Grid.Column>
                 </Grid.Row>

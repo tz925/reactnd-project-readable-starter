@@ -45,3 +45,25 @@ export const getCommentDetail = (id) => {
     method: 'GET', headers })
     .then(res => res.json())
 }
+
+export const postComment = (body) => {
+  return fetch(`${url}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+export const updateComment = (body,id) => {
+  return fetch(`${url}/comments/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}

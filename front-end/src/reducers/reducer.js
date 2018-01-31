@@ -3,7 +3,10 @@ import {
   POST_ALL_CATEGORIES,
   POST_POSTS,
   POST_POST_DETAIL,
-  POST_COMMENTS
+  POST_COMMENTS,
+  EDIT_COMMENT,
+  ADD_COMMENT,
+  UPDATE_COMMENT
 } from '../actions/action'
 
 // let initialCategories = getAllCategories().then(value => {
@@ -50,11 +53,33 @@ function postDetail (state = {}, action){
   }
 }
 
-function comments (state = [], action) {
+function comments (state = {}, action) {
   switch (action.type) {
     case POST_COMMENTS :
+      state = {}
       const { comments } = action
-      return comments //an array
+      comments.map(comment => {
+        let id = comment.id
+        state[id] = comment
+        return null
+      })
+      return state
+    case ADD_COMMENT : //use to both update and add
+      let { comment } = action
+      return {
+        ...state,
+        [comment.id]: comment
+      }
+    default :
+      return state
+  }
+}
+
+function tempComment (state ='', action){
+  switch (action.type) {
+    case EDIT_COMMENT :
+      const { commentBody } = action
+      return commentBody //an array
     default :
       return state
   }
@@ -64,5 +89,6 @@ export default combineReducers({
   categories,
   posts,
   postDetail,
-  comments
+  comments,
+  tempComment
 })
