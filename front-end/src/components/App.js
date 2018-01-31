@@ -8,9 +8,9 @@ import PostList from './PostList'
 import Post from './Post'
 
 function mapStateToProps (state) {
-  let {category} = state
+  let {categories} = state
   return {
-    categories: category
+    categories: categories
   }
 }
 function mapDispatchToProps (dispatch) {

@@ -16,14 +16,32 @@ export const getAllCategories = () => {
     .then(data => data.categories)
 }
 
+export const getCategoryPosts = (category) => {
+  return fetch(`${url}/${category}/posts`, {
+    method: 'GET', headers })
+    .then(res => res.json())
+}
+
 export const getAllPosts = () => {
   return fetch(`${url}/posts`, {
     method: 'GET', headers })
     .then(res => res.json())
 }
 
-export const getCategoryPosts = (category) => {
-  return fetch(`${url}/${category}/posts`, {
+export const getPostDetail = (id) => {
+  return fetch(`${url}/posts/${id}`, {
+    method: 'GET', headers })
+    .then(res => res.json())
+}
+
+export const getComments = (id) => {
+  return fetch(`${url}/posts/${id}/comments`, {
+    method: 'GET', headers })
+    .then(res => res.json())
+}
+
+export const getCommentDetail = (id) => {
+  return fetch(`${url}/comments/${id}`, {
     method: 'GET', headers })
     .then(res => res.json())
 }

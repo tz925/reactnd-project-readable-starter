@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux'
 import {
   POST_ALL_CATEGORIES,
-  POST_POSTS} from '../actions/action'
+  POST_POSTS,
+  POST_POST_DETAIL,
+  POST_COMMENTS
+} from '../actions/action'
 
 // let initialCategories = getAllCategories().then(value => {
 //   console.log(value)
@@ -10,7 +13,7 @@ import {
 // })
 // console.log(initialCategories)
 
-function category (state = [], action) {
+function categories (state = [], action) {
   switch (action.type) {
     case POST_ALL_CATEGORIES :
       const { categories } = action
@@ -20,7 +23,7 @@ function category (state = [], action) {
   }
 }
 
-function post (state = {}, action){
+function posts (state = {}, action){
   switch (action.type) {
     case POST_POSTS:
       state = {}
@@ -36,7 +39,30 @@ function post (state = {}, action){
   }
 }
 
+function postDetail (state = {}, action){
+  switch (action.type) {
+    case POST_POST_DETAIL:
+      const { postDetail } = action
+      state = postDetail
+      return state
+    default:
+      return state
+  }
+}
+
+function comments (state = [], action) {
+  switch (action.type) {
+    case POST_COMMENTS :
+      const { comments } = action
+      return comments //an array
+    default :
+      return state
+  }
+}
+
 export default combineReducers({
-  category,
-  post
+  categories,
+  posts,
+  postDetail,
+  comments
 })
