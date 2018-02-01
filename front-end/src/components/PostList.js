@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import * as API from '../utils/api'
 import { connect } from 'react-redux'
-import {postPosts} from '../actions/action'
+import {postPosts, addPost,deletePost} from '../actions/action'
 import {Link} from 'react-router-dom'
-import { Segment,List,Grid} from 'semantic-ui-react'
+import { Segment,List,Grid,Icon} from 'semantic-ui-react'
 import {dayPast} from '../utils/utils'
 import SortByDropDown from '../components/SortByDropDown'
 import sortBy from 'sort-by'
+import PostModal from './PostModal'
 
 function mapStateToProps (state) {
   let {posts} = state
@@ -16,7 +17,9 @@ function mapStateToProps (state) {
 }
 function mapDispatchToProps (dispatch) {
   return {
-    postPosts: (data) => dispatch(postPosts(data))
+    postPosts: (data) => dispatch(postPosts(data)),
+    addPost: (data) => dispatch(addPost(data)),
+    deletePost: (data) => dispatch(deletePost(data)),
   }
 }
 
@@ -41,20 +44,29 @@ class PostList extends Component {
     return (
       <Segment>
         <SortByDropDown onSelect={sortByOnSelect} />
+        <PostModal mode='create'/>
         <List celled>
           {posts && posts.map(post => {
             let des = dayPast(post.timestamp)
             return(
-            <List.Item as={Link} to={'/postdetail/'+post.id} key={post.id}>
+            <List.Item key={post.id}>
               <Grid  >
                 <Grid.Row>
-                  <Grid.Column width={12}>
+                  <Grid.Column as={Link} to={'/postdetail/'+post.id} width={9}>
                     <List.Content>
                       <List.Header>{post.title}</List.Header>
                       <List.Description>{des}</List.Description>
                     </List.Content>
                   </Grid.Column>
-                  <Grid.Column><span>Vote: {post.voteScore}</span></Grid.Column>
+                  <Grid.Column width={4}>
+                    <PostModal post={post} />
+                  </Grid.Column>
+                  <Grid.Column>
+                    Votes: {post.voteScore}
+                    <button onClick={event => API.votePost({option: 'upVote'}, post.id).then(post => this.props.addPost(post))}><Icon disabled name='like outline' /></button>
+                    <button onClick={event => API.votePost({option: 'downVote'},post.id).then(post => this.props.addPost(post))}><Icon disabled name='dislike outline' /></button>
+                    <button onClick={event => API.deletePost(post.id).then(post => this.props.deletePost(post))}><Icon disabled name='delete' /></button>
+                </Grid.Column>
                 </Grid.Row>
               </Grid>
             </List.Item>

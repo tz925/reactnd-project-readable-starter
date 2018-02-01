@@ -67,3 +67,59 @@ export const updateComment = (body,id) => {
     body: JSON.stringify(body)
   }).then(res => res.json())
 }
+
+export const postPost = (body) => {
+  return fetch(`${url}/posts`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+export const votePost = (body,id) => {
+  return fetch(`${url}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+export const voteComment = (body,id) => {
+  return fetch(`${url}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+export const updatePost = (body,id) => {
+  return fetch(`${url}/posts/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(res => res.json())
+}
+
+export const deletePost = (id) => {
+  return fetch(`${url}/posts/${id}`, {
+    method: 'DELETE', headers })
+    .then(res => res.json())
+}
+
+export const deleteComment = (id) => {
+  return fetch(`${url}/comments/${id}`, {
+    method: 'DELETE', headers })
+    .then(res => res.json())
+}

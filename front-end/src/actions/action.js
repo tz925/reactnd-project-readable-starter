@@ -4,6 +4,9 @@ export const POST_POSTS = 'POST_POSTS'
 export const POST_COMMENTS = 'POST_COMMENTS'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const ADD_COMMENT = 'ADD_COMMENT'
+export const ADD_POST = 'ADD_POST'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const DELETE_POST = 'DELETE_POST'
 
 export function postAllCategories (categories) {
   //push the categories into redux category state
@@ -46,5 +49,26 @@ export function addComment (comment){
   return{
     type: ADD_COMMENT,
     comment: comment
+  }
+}
+
+export function addPost (post){
+  return{
+    type: ADD_POST,
+    post: post
+  }
+}
+
+export function deleteComment (comment){
+  return{
+    type: DELETE_COMMENT,
+    comment: comment
+  }
+}
+
+export function deletePost (post){
+  return{
+    type: DELETE_POST,
+    post: post
   }
 }

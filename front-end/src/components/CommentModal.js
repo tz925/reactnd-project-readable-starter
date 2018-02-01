@@ -14,15 +14,12 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     addComment: (data) => dispatch(addComment(data)),
-    // commentEdit: (data) => dispatch(commentEdit(data))
   }
 }
 class CommentModal extends Component {
-  // componentDidMount(){
-  //   if(this.props.mode === 'edit'){
-  //     this.props.commentEdit(this.props.comment.body)
-  //   }
-  // }
+  state = {
+    body: this.props.comment ? this.props.comment.body : null
+  }
   handleSubmit = (event) => {
     event.preventDefault()
     const values = serializeForm(event.target, { hash: true })
@@ -35,6 +32,11 @@ class CommentModal extends Component {
       const {id} = this.props.comment
       API.updateComment(values,id).then(comment => this.props.addComment(comment))
     }
+  }
+  handleChange = (value) => {
+    this.setState({
+      body: value
+    })
   }
   render() {
     if(this.props.mode === 'create'){
@@ -57,10 +59,11 @@ class CommentModal extends Component {
           <Modal.Header>Edit Comment</Modal.Header>
           <Modal.Content>
             <Form onSubmit={this.handleSubmit}>
-              <Form.Input label="Body"
+              <Form.Input autoFocus label="Body"
                 name='body'
-                // value={tempComment}
-                // onChange={event => commentEdit(event.target.value)}
+                value = {this.state.body}
+                onChange = {event => this.handleChange(event.target.value)}
+                // ref={input => this.textInput = input}
               />
               <Button type='submit' primary>Update</Button>
             </Form>

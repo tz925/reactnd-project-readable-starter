@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Segment,Header,Container,Icon,Comment,Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { postPostDetail,postComments } from '../actions/action'
+import { postPostDetail,postComments,addComment,deletePost,deleteComment } from '../actions/action'
 import * as API from '../utils/api'
 import sortBy from 'sort-by'
 import SortByDropDown from '../components/SortByDropDown'
@@ -19,6 +19,9 @@ function mapDispatchToProps (dispatch) {
   return {
     postPostDetail: (data) => dispatch(postPostDetail(data)),
     postComments: (data) => dispatch(postComments(data)),
+    addComment: (data) => dispatch(addComment(data)),
+    deletePost: (data) => dispatch(deletePost(data)),
+    deleteComment: (data) => dispatch(deleteComment(data))
   }
 }
 // Post Detail View
@@ -52,8 +55,9 @@ class Post extends Component {
               </Header>
               <Container textAlign='center'>
                 Votes: {post.voteScore}
-                <button onClick={event => console.log('liked')}><Icon disabled name='like outline' /></button>
-                <button onClick={event => console.log('disliked')}><Icon disabled name='dislike outline' /></button>
+                <button onClick={event => API.votePost({option: 'upVote'}, post.id).then(post => this.props.postPostDetail(post))}><Icon disabled name='like outline' /></button>
+                <button onClick={event => API.votePost({option: 'downVote'},post.id).then(post => this.props.postPostDetail(post))}><Icon disabled name='dislike outline' /></button>
+                <button onClick={event => API.deletePost(post.id).then(post => {this.props.deletePost(post)})}><Icon disabled name='delete' /></button>
               </Container>
               <Container textAlign='center'>
                 {post.body}
@@ -81,7 +85,12 @@ class Post extends Component {
                   <Grid.Column width={4}>
                     <CommentModal mode="edit" comment={comment} />
                   </Grid.Column>
-                  <Grid.Column><span>Vote: {comment.voteScore}</span></Grid.Column>
+                  <Grid.Column>
+                    <span>Vote: {comment.voteScore}</span>
+                    <button onClick={event => API.voteComment({option: 'upVote'}, comment.id).then(comment => this.props.addComment(comment))}><Icon disabled name='like outline' /></button>
+                    <button onClick={event => API.voteComment({option: 'downVote'},comment.id).then(comment => this.props.addComment(comment))}><Icon disabled name='dislike outline' /></button>
+                    <button onClick={event => API.deleteComment(comment.id).then(comment => this.props.deleteComment(comment))}><Icon disabled name='delete' /></button>
+                  </Grid.Column>
                 </Grid.Row>
               </Grid>
             </Comment>
