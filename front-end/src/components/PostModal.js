@@ -5,6 +5,7 @@ import * as util from '../utils/utils'
 import { connect } from 'react-redux'
 import {addPost} from '../actions/action'
 import * as API from '../utils/api'
+
 function mapStateToProps (state) {
   let {categories} = state
   return {

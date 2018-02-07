@@ -46,8 +46,12 @@ function posts (state = {}, action){
         [post.id]: post
       }
     case DELETE_POST :
-      delete state[action.post.id]
-      return state
+    var cloneState = {}
+    Object.keys(state).forEach(function(key) {
+      cloneState[key] = state[key]
+    })
+    delete cloneState[action.post.id]
+    return cloneState
     default:
       return state
   }
@@ -59,6 +63,11 @@ function postDetail (state = {}, action){
       const { postDetail } = action
       state = postDetail
       return state
+    case ADD_COMMENT :
+     return {
+       ...state,
+       commentCount: state.commentCount + 1
+     }
     default:
       return state
   }
@@ -82,8 +91,12 @@ function comments (state = {}, action) {
         [comment.id]: comment
       }
     case DELETE_COMMENT :
-      delete state[action.comment.id]
-      return state
+      var cloneState = {}
+      Object.keys(state).forEach(function(key) {
+        cloneState[key] = state[key]
+      })
+      delete cloneState[action.comment.id]
+      return cloneState
     default :
       return state
   }

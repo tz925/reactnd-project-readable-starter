@@ -7,6 +7,16 @@ import sortBy from 'sort-by'
 import SortByDropDown from '../components/SortByDropDown'
 import CommentModal from './CommentModal'
 
+// 我发现了个小技巧，下次可以试一试：
+//
+// 如果想将多个 action 导入到你的组件里面，可以考虑用以下的方式来导入
+//
+// import * as actions from '../actions/action1';
+// 添加到组件里面，只需要使用以下的代码：
+//
+// export default connect(mapStateToProps, actions)(Component);
+// 上面代码会把 action 构造器添加上你的组件上面，这会减少很多不必要的代码量
+
 function mapStateToProps (state) {
   let post = state.postDetail
   let comments = state.comments
@@ -32,7 +42,7 @@ function mapDispatchToProps (dispatch) {
 
 class Post extends Component {
   componentDidMount(){
-    let id = window.location.pathname.substring(12)
+    let id = window.location.pathname.substring(7)
     API.getPostDetail(id).then(post => this.props.postPostDetail(post))
     API.getComments(id).then(comments => this.props.postComments(comments.sort(sortBy('-voteScore'))))
   }
@@ -58,6 +68,9 @@ class Post extends Component {
                 <button onClick={event => API.votePost({option: 'upVote'}, post.id).then(post => this.props.postPostDetail(post))}><Icon disabled name='like outline' /></button>
                 <button onClick={event => API.votePost({option: 'downVote'},post.id).then(post => this.props.postPostDetail(post))}><Icon disabled name='dislike outline' /></button>
                 <button onClick={event => API.deletePost(post.id).then(post => {this.props.deletePost(post)})}><Icon disabled name='delete' /></button>
+              </Container>
+              <Container textAlign='center'>
+                Comments: {post.commentCount}
               </Container>
               <Container textAlign='center'>
                 {post.body}

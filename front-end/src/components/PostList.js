@@ -52,7 +52,7 @@ class PostList extends Component {
             <List.Item key={post.id}>
               <Grid  >
                 <Grid.Row>
-                  <Grid.Column as={Link} to={'/postdetail/'+post.id} width={9}>
+                  <Grid.Column as={Link} to={'/'+ post.category +'/'+post.id} width={8}>
                     <List.Content>
                       <List.Header>{post.title}</List.Header>
                       <List.Description>{des}</List.Description>
@@ -66,7 +66,10 @@ class PostList extends Component {
                     <button onClick={event => API.votePost({option: 'upVote'}, post.id).then(post => this.props.addPost(post))}><Icon disabled name='like outline' /></button>
                     <button onClick={event => API.votePost({option: 'downVote'},post.id).then(post => this.props.addPost(post))}><Icon disabled name='dislike outline' /></button>
                     <button onClick={event => API.deletePost(post.id).then(post => this.props.deletePost(post))}><Icon disabled name='delete' /></button>
-                </Grid.Column>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <span>Comments: {post.commentCount}</span>
+                  </Grid.Column>
                 </Grid.Row>
               </Grid>
             </List.Item>

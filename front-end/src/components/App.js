@@ -50,12 +50,13 @@ class App extends Component {
               <PostList />
             )}/>
             {categories && categories.map(cate =>
-            (<Route path={'/'+cate.path} key={cate.name} render={() => (
+            (<Route exact path={'/'+cate.path} key={cate.name} render={() => (
               <PostList category={cate.name} />
             )}/>))}
-            <Route path='/postdetail' render={() => (
+            {categories && categories.map(cate =>
+            (<Route path={'/'+cate.path} key={cate.name} render={() => (
               <Post />
-            )} />
+            )}/>))}
           </Switch>
         </div>
       </BrowserRouter>
