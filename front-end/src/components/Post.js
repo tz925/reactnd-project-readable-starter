@@ -43,7 +43,14 @@ function mapDispatchToProps (dispatch) {
 class Post extends Component {
   componentDidMount(){
     let id = window.location.pathname.substring(7)
-    API.getPostDetail(id).then(post => this.props.postPostDetail(post))
+    API.getPostDetail(id).then(post => {
+      if (!post.id){ //post is empty object-->post is deleted
+        // console.log('deleted')
+        this.props.history.push('/')
+      }else{
+        this.props.postPostDetail(post)
+      }
+    })
     API.getComments(id).then(comments => this.props.postComments(comments.sort(sortBy('-voteScore'))))
   }
   render(){
@@ -67,7 +74,10 @@ class Post extends Component {
                 Votes: {post.voteScore}
                 <button onClick={event => API.votePost({option: 'upVote'}, post.id).then(post => this.props.postPostDetail(post))}><Icon disabled name='like outline' /></button>
                 <button onClick={event => API.votePost({option: 'downVote'},post.id).then(post => this.props.postPostDetail(post))}><Icon disabled name='dislike outline' /></button>
-                <button onClick={event => API.deletePost(post.id).then(post => {this.props.deletePost(post)})}><Icon disabled name='delete' /></button>
+                <button onClick={event => API.deletePost(post.id).then(post => {
+                  this.props.deletePost(post)
+                  this.props.history.push('/')
+                })}><Icon disabled name='delete' /></button>
               </Container>
               <Container textAlign='center'>
                 Comments: {post.commentCount}

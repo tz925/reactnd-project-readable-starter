@@ -54,8 +54,8 @@ class App extends Component {
               <PostList category={cate.name} />
             )}/>))}
             {categories && categories.map(cate =>
-            (<Route path={'/'+cate.path} key={cate.name} render={() => (
-              <Post />
+            (<Route path={'/'+cate.path} key={cate.name} render={({history}) => (
+              <Post history={history}/>
             )}/>))}
           </Switch>
         </div>

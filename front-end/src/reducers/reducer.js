@@ -68,6 +68,7 @@ function postDetail (state = {}, action){
        ...state,
        commentCount: state.commentCount + 1
      }
+    
     default:
       return state
   }
